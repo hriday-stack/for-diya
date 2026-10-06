@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>hey dida 🤍</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 50% 20%, #fffafb 0%, #fdeef2 42%, #f7dce4 100%);
+      color: #633f48;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    /* -------------------------
+       MAIN SCREEN
+    ------------------------- */
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .background-glow {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      left: 50%;
+      top: 42%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.7);
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    .content {
+      width: min(440px, 100%);
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hello {
+      font-size: clamp(30px, 9vw, 46px);
+      font-weight: 600;
+      color: #613b45;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      font-size: clamp(16px, 4.5vw, 19px);
+      line-height: 1.6;
+      color: #805963;
+      margin-bottom: 30px;
+    }
+
+    .sad-button {
+      border: none;
+      background: #9e5268;
+      color: white;
+      padding: 15px 27px;
+      border-radius: 999px;
+      font-size: 17px;
+      cursor: pointer;
+      box-shadow:
+        0 10px 25px rgba(126, 62, 82, 0.2),
+        0 3px 8px rgba(126, 62, 82, 0.12);
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .sad-button:hover {
+      transform: translateY(-2px);
+      background: #91495f;
+      box-shadow:
+        0 14px 30px rgba(126, 62, 82, 0.25),
+        0 4px 10px rgba(126, 62, 82, 0.15);
+    }
+
+    .sad-button:active {
+      transform: scale(0.96);
+    }
+
+    /* -------------------------
+       REVEAL
+    ------------------------- */
+
+    .reveal {
+      display: none;
+      width: min(500px, 100%);
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(18px);
+    }
+
+    .reveal.show {
+      display: block;
+      animation: revealTogether 1s cubic-bezier(.22, 1, .36, 1) forwards;
+    }
+
+    /*
+      IMPORTANT:
+      The message AND image are inside this same reveal container.
+      They therefore appear together in the same animation.
+    */
+
+    @keyframes revealTogether {
+      0% {
+        opacity: 0;
+        transform: translateY(22px) scale(0.97);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .message {
+      font-size: clamp(18px, 5vw, 21px);
+      line-height: 1.75;
+      color: #69434d;
+      margin-bottom: 25px;
+    }
+
+    .message strong {
+      display: block;
+      font-size: clamp(22px, 6vw, 27px);
+      margin: 8px 0;
+      color: #7b3f52;
+      font-weight: 600;
+    }
+
+    .signature {
+      display: block;
+      margin-top: 15px;
+      font-size: 17px;
+      font-style: italic;
+      color: #8d5b67;
+    }
+
+    /* -------------------------
+       IMAGE CARD
+    ------------------------- */
+
+    .photo-card {
+      width: 100%;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(120, 70, 82, 0.1);
+      border-radius: 22px;
+      box-shadow:
+        0 20px 50px rgba(105, 54, 69, 0.16),
+        0 4px 12px rgba(105, 54, 69, 0.08);
+      overflow: hidden;
+    }
+
+    .photo {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 15px;
+    }
+
+    /* -------------------------
+       FINAL LINE
+    ------------------------- */
+
+    .final-line {
+      margin-top: 24px;
+      font-size: clamp(18px, 5vw, 21px);
+      color: #714550;
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    .reveal.show .final-line {
+      animation: finalAppear 0.8s ease forwards;
+      animation-delay: 0.35s;
+    }
+
+    @keyframes finalAppear {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* -------------------------
+       FLOATING HEARTS
+    ------------------------- */
+
+    .heart {
+      position: fixed;
+      bottom: -30px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      color: #d77b91;
+      animation: floatHeart linear forwards;
+    }
+
+    @keyframes floatHeart {
+      0% {
+        opacity: 0;
+        transform: translateY(0) scale(0.7) rotate(0deg);
+      }
+
+      15% {
+        opacity: 0.7;
+      }
+
+      80% {
+        opacity: 0.55;
+      }
+
+      100% {
+        opacity: 0;
+        transform:
+          translateY(-105vh)
+          scale(1.15)
+          rotate(25deg);
+      }
+    }
+
+    /* -------------------------
+       MOBILE
+    ------------------------- */
+
+    @media (max-width: 600px) {
+      .page {
+        padding: 22px 17px;
+      }
+
+      .content {
+        width: 100%;
+      }
+
+      .hello {
+        margin-bottom: 9px;
+      }
+
+      .subtitle {
+        margin-bottom: 25px;
+      }
+
+      .sad-button {
+        padding: 14px 24px;
+        font-size: 16px;
+      }
+
+      .photo-card {
+        padding: 7px;
+        border-radius: 18px;
+      }
+
+      .photo {
+        border-radius: 12px;
+      }
+
+      .message {
+        line-height: 1.65;
+        margin-bottom: 20px;
+      }
+
+      .final-line {
+        margin-top: 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <div class="background-glow"></div>
+
+    <section class="content">
+
+      <!-- INITIAL SCREEN -->
+
+      <div id="opening">
+
+        <h1 class="hello">
+          hey dida 🤍
+        </h1>
+
+        <p class="subtitle">
+          I made this for you.
+        </p>
+
+        <button
+          class="sad-button"
+          id="sadButton"
+          type="button"
+        >
+          Click only if you're sad
+        </button>
+
+      </div>
+
+
+      <!-- REVEAL
+           IMAGE + MESSAGE APPEAR TOGETHER -->
+
+      <div class="reveal" id="reveal">
+
+        <div class="message">
+
+          Hey. 🤍
+
+          <br><br>
+
+          I know I can't fix everything.
+
+          <br>
+
+          But I can remind you that there's an idiot
+          somewhere who cares about you a lot
+          and really wants to see you smile.
+
+          <br><br>
+
+          So here's your assignment:
+
+          <strong>
+            Smile a little.
+          </strong>
+
+          Please? 🥺
+
+          <span class="signature">
+            — Hriday
+          </span>
+
+        </div>
+
+
+        <!-- YOUR IMAGE -->
+
+        <div class="photo-card">
+          <img
+            class="photo"
+            src="diya.png"
+            alt="A little something for Dida"
+          >
+        </div>
+
+
+        <!-- FINAL LINE -->
+
+        <p class="final-line">
+          There she is. 🤍
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    const button = document.getElementById("sadButton");
+    const opening = document.getElementById("opening");
+    const reveal = document.getElementById("reveal");
+
+    let opened = false;
+
+
+    button.addEventListener("click", () => {
+
+      if (opened) return;
+
+      opened = true;
+
+      /*
+        Hide the opening screen first.
+      */
+
+      opening.style.transition =
+        "opacity 0.45s ease, transform 0.45s ease";
+
+      opening.style.opacity = "0";
+      opening.style.transform = "translateY(-10px) scale(0.98)";
+
+
+      /*
+        Then reveal the message + image together.
+      */
+
+      setTimeout(() => {
+
+        opening.style.display = "none";
+
+        reveal.classList.add("show");
+
+        createHearts();
+
+      }, 420);
+
+    });
+
+
+    /*
+      Small amount of floating hearts after
+      the reveal. Nothing crazy.
+    */
+
+    function createHearts() {
+
+      const amount = window.innerWidth < 600 ? 9 : 13;
+
+      for (let i = 0; i < amount; i++) {
+
+        setTimeout(() => {
+
+          const heart = document.createElement("div");
+
+          heart.className = "heart";
+          heart.textContent = Math.random() > 0.5 ? "♡" : "♥";
+
+          heart.style.left =
+            Math.random() * 100 + "vw";
+
+          heart.style.fontSize =
+            (14 + Math.random() * 13) + "px";
+
+          heart.style.animationDuration =
+            (5 + Math.random() * 4) + "s";
+
+          document.body.appendChild(heart);
+
+          setTimeout(() => {
+            heart.remove();
+          }, 10000);
+
+        }, i * 180);
+
+      }
+
+    }
+
+  </script>
+
+</body>
+</html>
